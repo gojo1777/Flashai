@@ -82,16 +82,6 @@ class MainActivity : Activity() {
             }
         }
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html")
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION
-            )
-        }
     }
 
     private fun findRearTorchCamera() {
