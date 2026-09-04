@@ -12,6 +12,7 @@ import android.webkit.*
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.webkit.WebViewAssetLoader
 
 class MainActivity : Activity() {
 
@@ -65,7 +66,21 @@ class MainActivity : Activity() {
             }
         }
 
-        webView.webViewClient = WebViewClient()
+        val assetLoader = WebViewAssetLoader.Builder()
+            .addPathHandler(
+                "/assets/",
+                WebViewAssetLoader.AssetsPathHandler(this)
+            )
+            .build()
+
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView,
+                request: WebResourceRequest
+            ): WebResourceResponse? {
+                return assetLoader.shouldInterceptRequest(request.url)
+            }
+        }
         webView.loadUrl("https://appassets.androidplatform.net/assets/index.html")
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
